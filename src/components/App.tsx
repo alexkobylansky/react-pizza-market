@@ -18,7 +18,10 @@ function App() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-              <PizzaBlock/>
+              <PizzaBlock title="Чизбургер-пицца"
+                          imageUrl="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                          price="395"
+              />
               <div className="pizza-block">
                 <img
                   className="pizza-block__image"
