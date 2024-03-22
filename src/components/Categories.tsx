@@ -5,17 +5,13 @@ const categories = ["Все", "Мясные", "Вегетарианская", "�
 export const Categories = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const handleClickCategory = (index: number) => {
-    setActiveIndex(index)
-  };
-
   return (
     <div className="categories">
       <ul>
         {categories.map((item, index) => {
           return <li
             key={item}
-            onClick={() => handleClickCategory(index)}
+            onClick={() => setActiveIndex(index)}
             className={activeIndex === index ? "active" : ""}>{item}</li>
         })}
       </ul>
