@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-interface PizzaBlockProps {
-  title: string;
-  imageUrl: string;
-  price: string;
-}
+const typeNames = ["тонкое", "традиционное"];
 
-export const PizzaBlock: React.FC<PizzaBlockProps> = ({
-                                                        title,
-                                                        imageUrl,
-                                                        price,
-                                                      }) => {
+export const PizzaBlock: React.FC<Pizza> = ({
+                                              title,
+                                              imageUrl,
+                                              price,
+                                              sizes,
+                                              rating,
+                                              types,
+                                              category,
+                                            }) => {
+  const [activeSizeIndex, setActiveIndex] = useState(0);
+  const [activeTypeIndex, setActiveTypeIndex] = useState(0);
+
   return (
     <div className="pizza-block">
       <img
@@ -21,14 +24,15 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((type, index) => <li key={type}
+                                                            onClick={() => setActiveTypeIndex(index)}
+                                                            className={activeTypeIndex === index ? "active" : ""}>{typeNames[type]}</li>)}
         </ul>
         <ul>
-          <li className="active">26 см.
-          </li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((size, index) => <li
+                                                          key={size}
+                                                          onClick={() => setActiveIndex(index)}
+                                                          className={activeSizeIndex === index ? "active" : ""}>{size} см.</li>)}
         </ul>
       </div>
       <div className="pizza-block__bottom">
@@ -47,7 +51,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          <i>0</i>
         </button>
       </div>
     </div>
