@@ -7,9 +7,7 @@ export const PizzaBlock: React.FC<Pizza> = ({
                                               imageUrl,
                                               price,
                                               sizes,
-                                              rating,
                                               types,
-                                              category,
                                             }) => {
   const [activeSizeIndex, setActiveIndex] = useState(0);
   const [activeTypeIndex, setActiveTypeIndex] = useState(0);
