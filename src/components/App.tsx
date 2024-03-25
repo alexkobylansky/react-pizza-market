@@ -6,7 +6,7 @@ import {Sort} from "./Sort";
 import {PizzaBlock} from "./pizza-block/PizzaBlock";
 import {PizzaBlockSkeleton} from "./pizza-block/PizzaBlockSkeleton";
 
-function App() {
+export const App = () => {
   const [pizzas, setPizzas] = useState<Pizza[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,5 +48,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
