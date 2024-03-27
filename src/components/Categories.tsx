@@ -1,9 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]
+const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
-export const Categories = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+interface CategoriesProps {
+  categoryId: number;
+  setCategoryId: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const Categories: React.FC<CategoriesProps> = ({
+                                                        categoryId,
+                                                        setCategoryId
+                                                      }) => {
+
 
   return (
     <div className="categories">
@@ -11,8 +19,8 @@ export const Categories = () => {
         {categories.map((item, index) => {
           return <li
             key={item}
-            onClick={() => setActiveIndex(index)}
-            className={activeIndex === index ? "active" : ""}>{item}</li>
+            onClick={() => setCategoryId(index)}
+            className={categoryId === index ? "active" : ""}>{item}</li>
         })}
       </ul>
     </div>

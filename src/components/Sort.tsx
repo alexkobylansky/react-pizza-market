@@ -1,16 +1,29 @@
 import React, {useState} from 'react';
 
-const sortList = ["популярности", "цене", "алфавиту"]
+const sortList = [
+  {name: "популярности (DESC)", sortProperty: "rating"},
+  {name: "популярности (ASC)", sortProperty: "-rating"},
+  {name: "цене (DESC)", sortProperty: "price"},
+  {name: "цене (ASC)", sortProperty: "-price"},
+  {name: "алфавиту (DESC)", sortProperty: "title"},
+  {name: "алфавиту (ASC)", sortProperty: "-title"},
+];
 
-export const Sort = () => {
+interface SortProps {
+  sortType: SortProperty;
+  setSortType: React.Dispatch<React.SetStateAction<SortProperty>>;
+}
+
+export const Sort: React.FC<SortProps> = ({
+                                            sortType,
+                                            setSortType
+                                          }) => {
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const sortName = sortList[activeIndex];
 
-  const handleSetSort = (index: number) => {
-    setActiveIndex(index);
+  const handleSetSort = (obj: SortProperty) => {
+    setSortType(obj);
     setIsVisiblePopup(false);
-  }
+  };
 
   return (
     <div className="sort">
@@ -28,13 +41,13 @@ export const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{sortName}</span>
+        <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{sortType.name}</span>
       </div>
       {isVisiblePopup && <div className="sort__popup">
         <ul>
-          {sortList.map((item, index) => <li key={item}
-                                                            onClick={() => handleSetSort(index)}
-                                                            className={activeIndex === index ? "active" : ""}>{item}</li>)}
+          {sortList.map((obj, index) => <li key={obj.name}
+                                             onClick={() => handleSetSort(obj)}
+                                             className={sortType.sortProperty === obj.sortProperty ? "active" : ""}>{obj.name}</li>)}
         </ul>
       </div>}
     </div>

@@ -5,6 +5,11 @@ declare interface Pizza {
   price: number;
   rating: number;
   sizes: number[];
-  title: string;
+  name: string;
   types: number[];
+}
+
+declare interface SortProperty {
+  name: string;
+  sortProperty: string;
 }

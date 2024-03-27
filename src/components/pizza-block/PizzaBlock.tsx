@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 const typeNames = ["тонкое", "традиционное"];
 
 export const PizzaBlock: React.FC<Pizza> = ({
-                                              title,
+                                              name,
                                               imageUrl,
                                               price,
                                               sizes,
@@ -20,7 +20,7 @@ export const PizzaBlock: React.FC<Pizza> = ({
           src={imageUrl}
           alt="Pizza"
         />
-        <h4 className="pizza-block__title">{title}</h4>
+        <h4 className="pizza-block__title">{name}</h4>
         <div className="pizza-block__selector">
           <ul>
             {types.map((type, index) => <li key={type}
