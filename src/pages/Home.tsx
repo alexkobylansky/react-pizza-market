@@ -30,7 +30,7 @@ export const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading ? [...new Array(8)].map((_, index) => <PizzaBlockSkeleton key={index}/>) : pizzas.map((obj, index) => {
+        {isLoading ? [...new Array(8)].map((_, index) => <PizzaBlockSkeleton key={index}/>) : pizzas.map((obj) => {
           return <PizzaBlock key={obj.title}
                              {...obj}
           />
