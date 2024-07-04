@@ -4,7 +4,7 @@ const categories = ["Все", "Мясные", "Вегетарианская", "�
 
 interface CategoriesProps {
   categoryId: number;
-  setCategoryId: React.Dispatch<React.SetStateAction<number>>;
+  setCategoryId: (id: number) => void;
 }
 
 export const Categories: React.FC<CategoriesProps> = ({
