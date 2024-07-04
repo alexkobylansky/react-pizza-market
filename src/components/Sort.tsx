@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+import {useSelector, useDispatch} from "react-redux";
+import {RootState} from "../redux/store";
+import {setSortType} from "../redux/slices/filterSlice"
 
 const sortList = [
   {name: "популярности (DESC)", sortProperty: "rating"},
@@ -10,18 +13,16 @@ const sortList = [
 ];
 
 interface SortProps {
-  sortType: SortProperty;
-  setSortType: React.Dispatch<React.SetStateAction<SortProperty>>;
+
 }
 
-export const Sort: React.FC<SortProps> = ({
-                                            sortType,
-                                            setSortType
-                                          }) => {
+export const Sort: React.FC<SortProps> = () => {
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
+  const dispatch = useDispatch();
+  const sort = useSelector((state: RootState) => state.filterSlice.sort)
 
   const handleSetSort = (obj: SortProperty) => {
-    setSortType(obj);
+    dispatch(setSortType(obj));
     setIsVisiblePopup(false);
   };
 
@@ -41,13 +42,13 @@ export const Sort: React.FC<SortProps> = ({
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{sortType.name}</span>
+        <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{sort.name}</span>
       </div>
       {isVisiblePopup && <div className="sort__popup">
         <ul>
           {sortList.map((obj, index) => <li key={obj.name}
                                              onClick={() => handleSetSort(obj)}
-                                             className={sortType.sortProperty === obj.sortProperty ? "active" : ""}>{obj.name}</li>)}
+                                             className={sort.sortProperty === obj.sortProperty ? "active" : ""}>{obj.name}</li>)}
         </ul>
       </div>}
     </div>
