@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Categories} from "../components/Categories";
-import {Sort} from "../components/Sort";
+import {Sort, sortList} from "../components/Sort";
 import {PizzaBlockSkeleton} from "../components/pizza-block/PizzaBlockSkeleton";
 import {PizzaBlock} from "../components/pizza-block/PizzaBlock";
 import {SearchContext} from "../components/App";
@@ -8,8 +8,10 @@ import {SearchContext} from "../components/App";
 import axios from "axios";
 
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId} from "../redux/slices/filterSlice";
+import {setCategoryId, setFilters} from "../redux/slices/filterSlice";
 import {RootState} from "../redux/store";
+import {useNavigate} from "react-router-dom";
+import qs from 'qs';
 
 interface HomeProps {
 
@@ -26,15 +28,42 @@ export const Home: React.FC<HomeProps> = () => {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
+
   const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
   useEffect(() => {
-    window.scrollTo(0,0);
-  }, []);
+    if (isMounted.current) {
+      const querystring = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId: categoryId,
+      });
+      navigate(`?${querystring}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sort.sortProperty, searchValue]);
 
   useEffect(() => {
+    window.scrollTo(0,0);
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
+
+      dispatch(setFilters({
+        ...params,
+        sort
+      }));
+      isSearch.current = true;
+    }
+  }, []);
+
+  const fetchPizzas = () => {
     setIsLoading(true);
 
     const category = categoryId > 0 ? `category=${categoryId}` : "";
@@ -47,6 +76,13 @@ export const Home: React.FC<HomeProps> = () => {
         setPizzas(response.data);
         setIsLoading(false);
       })
+  };
+
+  useEffect(() => {
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+    isSearch.current = false;
   }, [categoryId, sort, searchValue]);
 
   return (
